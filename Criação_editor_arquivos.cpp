@@ -1,6 +1,5 @@
 #include <bits/stdc++.h>
 using namespace std;
-
 void gravar(string& OqueGravar ,string& name_arquivo, int& numero){
     ofstream Ar;
     Ar.open(name_arquivo, ios::app);
@@ -77,6 +76,27 @@ void ler_editar(string& OqueGravar, string& name_arquivo){
     }
     Ar_escrita.close();
 }
+void Deletar_linha(string& OqueGravar, string& name_arquivo) {
+    int indice;
+    indice = stoi(OqueGravar.substr(1));
+    string linha;
+    vector<string> lista;
+    lista.push_back("");
+    ifstream entrada(name_arquivo);
+
+    while (getline(entrada, linha)) {
+        lista.push_back(linha);
+    }
+    
+    entrada.close();
+
+    lista.erase(lista.begin() + indice);
+    ofstream saida(name_arquivo);
+    for(int i = 1; i < lista.size(); i++) {
+        saida << (lista[i]) << endl;
+    }
+    saida.close();
+}
 int main(){
     int Numero = 0;
     string name_arquivo;
@@ -101,7 +121,11 @@ int main(){
             cout << "clear : limpar o arquivo!" << endl;
             cout << "sair : Fechar programa!" << endl;
             cout << "Ou só digite o que deseja que seja integrado ao arquivo!" << endl;
-        }else if(isdigit(OqueGravar[0])){
+        }else if(OqueGravar[0] == '*' && isdigit(OqueGravar[1])){
+            Deletar_linha(OqueGravar, name_arquivo);
+            Limpar_tela();
+            ler(name_arquivo);
+        }else if(isdigit(OqueGravar[0]) && (OqueGravar[1] == '@')){
             ler_editar(OqueGravar, name_arquivo);
             Limpar_tela();
             ler(name_arquivo);
