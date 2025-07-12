@@ -23,8 +23,6 @@ void ler(string& name_arquivo) {
 			cout << B << " " << linhaAr << endl;
 			B++;
 		}
-	} else {
-		cout << "Error" << endl;
 	}
 	cout << Espa << endl;
 	Ar.close();
@@ -34,52 +32,44 @@ void Limpar_tela() {
 	system("clear");
 }
 void Limpar_Ar(string& name_arquivo) {
-
 	ofstream Ar;
 	Ar.open(name_arquivo,ios::trunc);
 	Ar.close();
 }
 void ler_editar(string& OqueGravar, string& name_arquivo) {
+	int indice = stoi(OqueGravar.substr(1));
 	int num = 0;
 	string linha;
 	vector<string> lista_linhas;
+	lista_linhas.push_back("");
 	ifstream Ar;
 	Ar.open(name_arquivo);
 	if (Ar) {
 		while (getline(Ar, linha)) {
 			lista_linhas.push_back(linha);
 		}
-	} else {
-		cout << "Error" << endl;
 	}
 	Ar.close();
 
-
-	size_t pos = OqueGravar.find('@');
-	if (pos != string::npos) {
-		int linha_num = stoi(OqueGravar.substr(0, pos));
-		string novo_conteudo = OqueGravar.substr(pos + 1);
-
-
-		if (linha_num > 0 && linha_num <= lista_linhas.size()) {
-			lista_linhas[linha_num - 1] = novo_conteudo;
-		} else {
-			cout << "Error" << endl;
-			return;
-		}
-	} else {
-		cout << "Formato invC!lido!" << endl;
-		return;
-	}
-
+    for(int i = 0; i < lista_linhas.size(); i++){
+        if (i == indice){
+            getline(cin, OqueGravar);
+            lista_linhas[i] = OqueGravar;
+        }
+    }
+    
 	ofstream Ar_escrita(name_arquivo);
 	for (const auto& l : lista_linhas) {
+	    if (num!= 0){
 		Ar_escrita << l << endl;
-	}
+	    }
+	    num++;
+	    }
 	Ar_escrita.close();
 }
 void Deletar_linha(string& OqueGravar, string& name_arquivo) {
 	int indice;
+	int numerozinho = 0;
 	indice = stoi(OqueGravar.substr(1));
 	string linha;
 	vector<string> lista;
@@ -88,16 +78,20 @@ void Deletar_linha(string& OqueGravar, string& name_arquivo) {
 
 	while (getline(entrada, linha)) {
 		lista.push_back(linha);
+		numerozinho++;
 	}
 
 	entrada.close();
-
+    if (indice <= numerozinho){
 	lista.erase(lista.begin() + indice);
 	ofstream saida(name_arquivo);
 	for(int i = 1; i < lista.size(); i++) {
 		saida << (lista[i]) << endl;
 	}
 	saida.close();
+    }
+
+	
 }
 void verificação(string& OqueGravar, string& name_arquivo, int& Numero, int& numerozinho) {
     getline(cin, OqueGravar);
@@ -118,7 +112,7 @@ void verificação(string& OqueGravar, string& name_arquivo, int& Numero, int& n
         Deletar_linha(OqueGravar, name_arquivo);
         Limpar_tela();
         ler(name_arquivo);
-    } else if (isdigit(OqueGravar[0]) && OqueGravar[1] == '@') {
+    } else if (OqueGravar[0] == '@' && isdigit(OqueGravar[1])) {
         ler_editar(OqueGravar, name_arquivo);
         Limpar_tela();
         ler(name_arquivo);
@@ -128,6 +122,7 @@ void verificação(string& OqueGravar, string& name_arquivo, int& Numero, int& n
         ler(name_arquivo);
     }
 }
+
 int main() {
     int numerozinho = 0;
 	int Numero = 0;
