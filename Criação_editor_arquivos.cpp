@@ -131,6 +131,7 @@ int main(){
         }else if(isdigit(OqueGravar[0]) && (OqueGravar[1] == '@')){
             ler_editar(OqueGravar, name_arquivo);
             Limpar_tela();
+            
             ler(name_arquivo);
         }else{
             Limpar_tela();
