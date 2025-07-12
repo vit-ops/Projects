@@ -12,6 +12,7 @@ void gravar(string& OqueGravar ,string& name_arquivo, int& numero){
     numero++;
 }
 void ler(string& name_arquivo){
+    int B = 1;
     string Espa = "______________________________________________________________________";
     string linhaAr;
     ifstream Ar;
@@ -19,7 +20,8 @@ void ler(string& name_arquivo){
     cout << "itens listados no arquvo:" << endl << Espa << endl;
     if(Ar){
         while (getline(Ar, linhaAr)){
-            cout << linhaAr << endl;
+            cout << B << "_ " << linhaAr << endl;
+            B++;
         }
     }else{
         cout << "Error" << endl;
@@ -98,11 +100,12 @@ void Deletar_linha(string& OqueGravar, string& name_arquivo) {
     saida.close();
 }
 int main(){
+
     int Numero = 0;
     string name_arquivo;
     string OqueGravar = "";
     cout << "Qual o nome do seu arquivo? Exemplo(Arquivo.txt) : ";
-    cin >> name_arquivo;
+    getline(cin,name_arquivo);
     gravar(OqueGravar, name_arquivo, Numero);
     ler(name_arquivo);
     while (true){
@@ -120,7 +123,7 @@ int main(){
         }else if (OqueGravar == "help"){
             cout << "clear : limpar o arquivo!" << endl;
             cout << "sair : Fechar programa!" << endl;
-            cout << "Ou só digite o que deseja que seja integrado ao arquivo!" << endl;
+            cout << "Ou so digite o que deseja que seja integrado ao arquivo!" << endl;
         }else if(OqueGravar[0] == '*' && isdigit(OqueGravar[1])){
             Deletar_linha(OqueGravar, name_arquivo);
             Limpar_tela();
